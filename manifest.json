@@ -1,0 +1,23 @@
+{
+  "name": "THE UAK - Poultry Calculator",
+  "short_name": "UAK Poultry Pro",
+  "description": "Passion Made Profession - Advanced Poultry Medicine Calculators by Dr. Usman Ali",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2e7d32",
+  "background_color": "#f9fdf9",
+  "orientation": "portrait",
+  "categories": ["medical", "productivity", "business"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%232e7d32' rx='30'/><circle cx='96' cy='80' r='25' fill='%23ffb300'/><path d='M96 105 L80 135 L70 150 L96 135 L122 150 L112 135 Z' fill='%23ffb300'/><text x='96' y='165' font-family='Arial' font-size='24' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%232e7d32' rx='80'/><circle cx='256' cy='200' r='60' fill='%23ffb300'/><path d='M256 260 L220 320 L200 350 L256 320 L312 350 L292 320 Z' fill='%23ffb300'/><text x='256' y='430' font-family='Arial' font-size='72' font-weight='bold' text-anchor='middle' fill='white'>UAK</text><text x='256' y='480' font-family='Arial' font-size='24' text-anchor='middle' fill='%23ffeb3b'>PRO</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

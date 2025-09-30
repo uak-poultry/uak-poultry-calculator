@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE UAK - Poultry Dose Calculators | Passion Made Profession</title>
+  
+  <!-- ==================== -->
+  <!-- PWA META TAGS & MANIFEST -->
+  <!-- ==================== -->
+  <meta name="theme-color" content="#2e7d32">
+  <meta name="description" content="THE UAK - Passion Made Profession. Professional poultry medicine dose calculators by Dr. Usman Ali">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="UAK Poultry">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' fill='%232e7d32' rx='35'/><circle cx='90' cy='70' r='25' fill='%23ffb300'/><path d='M90 100 L70 130 L60 145 L90 130 L120 145 L110 130 Z' fill='%23ffb300'/><text x='90' y='165' font-family='Arial' font-size='32' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>">
+  
+  <!-- Microsoft Tile Color -->
+  <meta name="msapplication-TileColor" content="#2e7d32">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232e7d32' rx='20'/><circle cx='50' cy='40' r='15' fill='%23ffb300'/><path d='M50 55 L35 70 L30 80 L50 70 L70 80 L65 70 Z' fill='%23ffb300'/><text x='50' y='90' font-family='Arial' font-size='20' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>">
+
+  <style>
+    /* === CSS VARIABLES & RESET === */
+    :root {
+      --primary-green: #2e7d32;
+      --primary-blue: #0288d1;
+      --accent-yellow: #ffb300;
+      --danger-red: #e53935;
+      --success-green: #4caf50;
+      --text-dark: #333;
+      --text-light: #fff;
+      --bg-light: #f9fdf9;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-light), #e0f7fa);
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* === UAK BRAND STYLING === */
+    .uak-brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .uak-logo-preview {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .uak-logo-preview .main-text {
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .uak-logo-preview .sub-text {
+      font-size: 11px;
+      color: #ffeb3b;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .uak-tagline {
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+      margin-top: 5px;
+      font-size: 1em;
+      font-weight: 500;
+    }
+
+    /* === LAYOUT & PAGE MANAGEMENT === */
+    .page {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === COMMON COMPONENTS === */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .content-box {
+      padding: 30px;
+    }
+
+    .header-gradient {
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+      color: var(--text-light);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .main-heading {
+      font-size: 2.3em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .sub-heading {
+      font-size: 1.2em;
+      font-weight: 400;
+      opacity: 0.95;
+    }
+
+    .heading-underline {
+      width: 200px;
+      height: 6px;
+      background: linear-gradient(90deg, #ffd54f, var(--accent-yellow));
+      margin: 15px auto 25px;
+      border-radius: 3px;
+    }
+
+    .calculator-title {
+      text-align: center;
+      font-size: 1.8em;
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 5px;
+    }
+
+    .section-title {
+      font-size: 1.3em;
+      color: var(--primary-green);
+      margin: 25px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    /* === FORM ELEMENTS === */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: var(--radius);
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(2, 136, 209, 0.1);
+    }
+
+    input.error {
+      border-color: var(--danger-red);
+      background-color: #ffebee;
+    }
+
+    .error-message {
+      color: var(--danger-red);
+      font-size: 0.85em;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* === BUTTONS === */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, var(--primary-green), #4caf50);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #1b5e20, var(--primary-green));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--primary-blue);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #01579b;
+    }
+
+    .btn-danger {
+      background: var(--danger-red);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b71c1c;
+    }
+
+    .btn-warning {
+      background: #f57c00;
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: #e65100;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* === TOGGLE SWITCH === */
+    .toggle-group {
+      display: flex;
+      background: #f5f5f5;
+      border-radius: var(--radius);
+      padding: 4px;
+    }
+
+    .toggle-option {
+      flex: 1;
+      text-align: center;
+    }
+
+    .toggle-option input {
+      display: none;
+    }
+
+    .toggle-option label {
+      display: block;
+      padding: 10px;
+      border-radius: calc(var(--radius) - 2px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .toggle-option input:checked + label {
+      background: var(--primary-green);
+      color: white;
+    }
+
+    /* === TABLES === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    .result-cell {
+      background: #e8f5e9;
+      font-weight: 600;
+    }
+
+    .highlight {
+      background: #fff3e0;
+    }
+
+    /* === RESULTS & OUTPUT === */
+    .result-box {
+      background: #f1f8e9;
+      border-left: 4px solid var(--primary-green);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    .calculation-summary {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+      font-weight: 600;
+      color: var(--primary-green);
+    }
+
+    /* === PRINT STYLES === */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      
+      .page.active,
+      .page.active * {
+        visibility: visible;
+      }
+      
+      .page.active {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+        padding: 20px;
+        margin: 0;
+      }
+      
+      .no-print {
+        display: none !important;
+      }
+      
+      .container {
+        box-shadow: none;
+        margin: 0;
+        max-width: 100%;
+        border: none;
+      }
+      
+      .header-gradient {
+        background: #2e7d32 !important;
+        -webkit-print-color-adjust: exact;
+        color: white;
+        padding: 20px;
+      }
+      
+      .content-box {
+        padding: 0;
+        margin-top: 20px;
+      }
+      
+      .print-table {
+        width: 100%;
+        margin: 20px 0;
+        display: block !important;
+      }
+      
+      .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        border: 2px solid #000;
+      }
+      
+      .result-table th,
+      .result-table td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      
+      .result-table th {
+        background: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        font-weight: bold;
+        text-align: center;
+      }
+      
+      .result-table .highlight {
+        background: #e8f5e9 !important;
+        -webkit-print-color-adjust: exact;
+        font-weight: bold;
+      }
+      
+      .result-table .result-header {
+        background: #2e7d32 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        font-size: 14px;
+        text-align: center;
+      }
+      
+      .btn {
+        display: none !important;
+      }
+      
+      .calculation-summary {
+        display: none;
+      }
+      
+      .professional-quote {
+        text-align: center;
+        font-style: italic;
+        margin-top: 30px;
+        color: #666;
+        font-size: 12px;
+      }
+
+      .live-results {
+        display: none !important;
+      }
+    }
+    
+    .print-table {
+      display: none;
+    }
+    
+    @media screen {
+      .print-table {
+        display: block;
+      }
+    }
+
+    /* === MODAL === */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.4em;
+      color: var(--primary-green);
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #777;
+    }
+
+    .close-btn:hover {
+      color: var(--text-dark);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 15px 20px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* === HOMEPAGE SPECIFIC === */
+    .homepage .intro {
+      text-align: center;
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      color: #555;
+    }
+
+    .calculator-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .calculator-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .calculator-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .card-icon {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: var(--primary-green);
+    }
+
+    .card-title {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      color: var(--primary-green);
+    }
+
+    .card-description {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: var(--primary-green);
+      color: white;
+      margin-top: 60px;
+    }
+
+    .professional-quote {
+      font-style: italic;
+      color: rgba(255,255,255,0.8);
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+
+    /* === RESPONSIVE DESIGN === */
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .form-col {
+        margin-bottom: 15px;
+      }
+      
+      .calculator-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-heading {
+        font-size: 2em;
+      }
+      
+      .content-box {
+        padding: 20px;
+      }
+
+      .uak-brand-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .uak-logo-preview {
+        width: 60px;
+        height: 60px;
+      }
+
+      .uak-logo-preview .main-text {
+        font-size: 18px;
+      }
+    }
+
+    /* === LIVE RESULTS STYLING === */
+    .live-results {
+      background: linear-gradient(135deg, #f8fffe, #e3f2fd);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .live-result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0f7fa;
+    }
+
+    .live-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .live-value {
+      font-weight: 600;
+      color: var(--primary-green);
+    }
+
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* === PWA INSTALL PROMPT === */
+    .install-prompt {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      padding: 15px;
+      z-index: 1000;
+      max-width: 300px;
+      border-left: 4px solid var(--primary-green);
+      display: none;
+    }
+
+    .install-prompt.show {
+      display: block;
+      animation: slideInUp 0.3s ease-out;
+    }
+
+    @keyframes slideInUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .install-prompt p {
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .install-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .install-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    .dismiss-btn {
+      background: #f5f5f5;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- PWA Install Prompt -->
+  <div class="install-prompt" id="installPrompt">
+    <p>Install UAK Poultry Calculator?</p>
+    <div class="install-buttons">
+      <button class="btn btn-primary install-btn" id="installButton">Install</button>
+      <button class="btn dismiss-btn install-btn" id="dismissButton">Later</button>
+    </div>
+  </div>
+
+  <!-- HOMEPAGE -->
+  <div id="homepage" class="page active">
+    <header class="header-gradient">
+      <div class="uak-brand-header">
+        <div class="uak-logo-preview">
+          <div class="main-text">UAK</div>
+          <div class="sub-text">PRO</div>
+        </div>
+        <div>
+          <h1 class="main-heading">THE UAK</h1>
+          <p class="sub-heading">Passion Made Profession</p>
+          <p class="uak-tagline">Poultry Medicine Dose Calculators</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="content-box">
+        <p class="intro">
+          Welcome to <strong>THE UAK</strong> - where passion meets profession in poultry healthcare.  
+          Select a calculator below to ensure accurate, efficient, and professional dosing for your poultry flocks.
+        </p>
+
+        <div class="calculator-cards">
+          <div class="calculator-card" onclick="PoultryCalculator.showPage('medicine-dose')">
+            <div class="card-icon">💊</div>
+            <h3 class="card-title">Medicine Dose Calculator</h3>
+            <p class="card-description">Calculate precise medication doses for your entire flock based on weight and composition.</p>
+            <button class="btn btn-primary">Open Calculator</button>
+          </div>
+
+          <div class="calculator-card" onclick="PoultryCalculator.showPage('in-feed-dose')">
+            <div class="card-icon">🌾</div>
+            <h3 class="card-title">In-Feed Dose Calculator</h3>
+            <p class="card-description">Calculate medication quantities for mixing with poultry feed for multiple medicines.</p>
+            <button class="btn btn-primary">Open Calculator</button>
+          </div>
+
+          <div class="calculator-card" onclick="PoultryCalculator.showPage('shed-wise-dose')">
+            <div class="card-icon">🏠</div>
+            <h3 class="card-title">Shed-wise Dose Calculator</h3>
+            <p class="card-description">Calculate medication requirements for multiple sheds with different flock characteristics.</p>
+            <button class="btn btn-primary">Open Calculator</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      © 2025 THE UAK - Passion Made Profession | Poultry Dose Calculators
+      <div class="professional-quote">"by a professional - for the professionals" ~Dr Usman Ali</div>
+    </footer>
+  </div>
+
+  <!-- MEDICINE DOSE CALCULATOR -->
+  <div id="medicine-dose" class="page">
+    <div class="container">
+      <div class="header-gradient">
+        <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
+        <h1 class="main-heading">THE UAK</h1>
+        <p class="sub-heading">Medicine Dose Calculator | Passion Made Profession</p>
+      </div>
+
+      <div class="content-box">
+        <h2 class="calculator-title">Precise Medication Dosing</h2>
+        <div class="heading-underline"></div>
+
+        <form id="medicine-dose-form">
+          <div class="form-group">
+            <label for="medicine-name">Medicine Name</label>
+            <input type="text" id="medicine-name" placeholder="e.g. Tylosin" data-validate="required" oninput="MedicineDoseCalculator.liveCalculate()">
+            <div class="error-message" id="medicine-name-error">Please enter a medicine name</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col">
+              <label for="medicine-type">Medicine Type</label>
+              <select id="medicine-type" data-validate="required" onchange="MedicineDoseCalculator.updateCompositionLabel(); MedicineDoseCalculator.liveCalculate()">
+                <option value="liquid">Liquid (mL)</option>
+                <option value="powder">Powder (g)</option>
+              </select>
+            </div>
+            
+            <div class="form-col">
+              <label>Composition Input Type</label>
+              <div class="toggle-group">
+                <div class="toggle-option">
+                  <input type="radio" id="percent-radio" name="comp-type" value="percent" checked onchange="MedicineDoseCalculator.updateCompositionLabel(); MedicineDoseCalculator.liveCalculate()">
+                  <label for="percent-radio">Percentage (%)</label>
+                </div>
+                <div class="toggle-option">
+                  <input type="radio" id="weight-radio" name="comp-type" value="weight" onchange="MedicineDoseCalculator.updateCompositionLabel(); MedicineDoseCalculator.liveCalculate()">
+                  <label for="weight-label" id="weight-label">g/L</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="composition" id="composition-label">Composition (%)</label>
+            <input type="number" id="composition" step="0.01" min="0" placeholder="e.g. 10" data-validate="required,positive" oninput="MedicineDoseCalculator.liveCalculate()">
+            <div class="error-message" id="composition-error">Please enter a valid composition value</div>
+          </div>
+
+          <div class="form-group">
+            <label for="flock-weight">Flock Weight (kg)</label>
+            <input type="number" id="flock-weight" step="0.01" min="0" placeholder="e.g. 500" data-validate="required,positive" oninput="MedicineDoseCalculator.liveCalculate()">
+            <div class="error-message" id="flock-weight-error">Please enter a valid flock weight</div>
+            <button type="button" class="btn btn-secondary btn-small" onclick="MedicineDoseCalculator.openWeightModal()" style="margin-top: 10px;">
+              Calculate Body Weight
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col">
+              <label for="dose-required">Dose Required (mg/kg)</label>
+              <input type="number" id="dose-required" step="0.01" min="0" placeholder="e.g. 20" data-validate="required,positive" oninput="MedicineDoseCalculator.liveCalculate()">
+              <div class="error-message" id="dose-required-error">Please enter a valid dose</div>
+            </div>
+            
+            <div class="form-col">
+              <label for="duration">Duration (days)</label>
+              <input type="number" id="duration" min="1" placeholder="e.g. 5" data-validate="required,positive" oninput="MedicineDoseCalculator.liveCalculate()">
+              <div class="error-message" id="duration-error">Please enter a valid duration</div>
+            </div>
+          </div>
+
+          <!-- Live Results Section -->
+          <div class="live-results" id="medicine-live-results" style="display: none;">
+            <h3 class="section-title">Live Calculation Results</h3>
+            <div id="medicine-live-content"></div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-full" onclick="MedicineDoseCalculator.calculate()">
+              Calculate Dose
+            </button>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" onclick="MedicineDoseCalculator.printResults()">🖨 Print Results</button>
+            <button type="button" class="btn btn-danger" onclick="MedicineDoseCalculator.reset()">🔄 Reset Form</button>
+          </div>
+        </form>
+
+        <div class="result-box" id="medicine-result" style="display: none;">
+          <h3 class="section-title">Calculation Results</h3>
+          <div id="medicine-result-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Weight Modal -->
+    <div class="modal" id="weight-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Body Weight Calculator</h3>
+          <button class="close-btn" onclick="MedicineDoseCalculator.closeWeightModal()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-col">
+              <label for="num-females">Total Females</label>
+              <input type="number" id="num-females" min="0" placeholder="0">
+            </div>
+            <div class="form-col">
+              <label for="avg-female-weight">Avg Female Weight (g)</label>
+              <input type="number" id="avg-female-weight" min="0" placeholder="0">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label for="num-males">Total Males</label>
+              <input type="number" id="num-males" min="0" placeholder="0">
+            </div>
+            <div class="form-col">
+              <label for="avg-male-weight">Avg Male Weight (g)</label>
+              <input type="number" id="avg-male-weight" min="0" placeholder="0">
+            </div>
+          </div>
+          
+          <div class="result-box" id="body-weight-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="MedicineDoseCalculator.closeWeightModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="MedicineDoseCalculator.calculateBodyWeight()">Calculate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-FEED DOSE CALCULATOR -->
+  <div id="in-feed-dose" class="page">
+    <div class="container">
+      <div class="header-gradient">
+        <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
+        <h1 class="main-heading">THE UAK</h1>
+        <p class="sub-heading">In-Feed Dose Calculator | Passion Made Profession</p>
+      </div>
+
+      <div class="content-box">
+        <h2 class="calculator-title">In-Feed Medication Calculator</h2>
+        <div class="heading-underline"></div>
+
+        <!-- Medicines Section -->
+        <div class="section-title">Medicines</div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="InFeedCalculator.addMedicine()">+ Add Medicine</button>
+        </div>
+
+        <div class="table-responsive">
+          <table id="medicines-table">
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Type</th>
+                <th>Dose - Female (mg/kg)</th>
+                <th>Dose - Male (mg/kg)</th>
+                <th class="no-print">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="medicines-tbody">
+              <!-- Rows will be added dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Flock Details -->
+        <div class="section-title">Flock Details</div>
+        
+        <div class="form-row">
+          <div class="form-col">
+            <label for="flock-number">Flock Number</label>
+            <input type="text" id="flock-number" placeholder="e.g. FLOCK-001" oninput="InFeedCalculator.recalculate()">
+          </div>
+          <div class="form-col">
+            <label for="female-count">Number of Females</label>
+            <input type="number" id="female-count" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+          <div class="form-col">
+            <label for="female-weight">Avg Female Weight (g)</label>
+            <input type="number" id="female-weight" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label for="male-count">Number of Males</label>
+            <input type="number" id="male-count" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+          <div class="form-col">
+            <label for="male-weight">Avg Male Weight (g)</label>
+            <input type="number" id="male-weight" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+          <div class="form-col">
+            <label for="course-days">Course Duration (days)</label>
+            <select id="course-days" onchange="InFeedCalculator.recalculate()">
+              <!-- Options will be populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label for="female-feed">Female Daily Feed (g)</label>
+            <input type="number" id="female-feed" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+          <div class="form-col">
+            <label for="male-feed">Male Daily Feed (g)</label>
+            <input type="number" id="male-feed" min="0" placeholder="0" oninput="InFeedCalculator.recalculate()">
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="section-title">Calculation Results</div>
+        <div class="result-box" id="in-feed-results">
+          <p>Enter flock details and medicine information to see results.</p>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="InFeedCalculator.downloadReport()">📊 Download Report (CSV)</button>
+          <button type="button" class="btn btn-secondary" onclick="InFeedCalculator.printResults()">🖨 Print Results</button>
+          <button type="button" class="btn btn-danger" onclick="InFeedCalculator.reset()">🔄 Reset Calculator</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHED-WISE DOSE CALCULATOR -->
+  <div id="shed-wise-dose" class="page">
+    <div class="container">
+      <div class="header-gradient">
+        <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
+        <h1 class="main-heading">THE UAK</h1>
+        <p class="sub-heading">Shed-wise Dose Calculator | Passion Made Profession</p>
+      </div>
+
+      <div class="content-box">
+        <h2 class="calculator-title">Multi-Shed Medication Calculator</h2>
+        <div class="heading-underline"></div>
+
+        <form id="shed-dose-form">
+          <div class="form-row">
+            <div class="form-col">
+              <label for="shed-medicine-name">Medicine Name</label>
+              <input type="text" id="shed-medicine-name" placeholder="e.g. Tylosin" data-validate="required" oninput="ShedWiseCalculator.liveCalculate()">
+              <div class="error-message" id="shed-medicine-name-error">Please enter a medicine name</div>
+            </div>
+            
+            <div class="form-col">
+              <label for="shed-medicine-type">Medicine Type</label>
+              <select id="shed-medicine-type" data-validate="required" onchange="ShedWiseCalculator.updateShedCompositionLabel(); ShedWiseCalculator.liveCalculate()">
+                <option value="liquid">Liquid</option>
+                <option value="powder">Powder</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Composition Type</label>
+            <div class="toggle-group">
+              <div class="toggle-option">
+                <input type="radio" id="shed-percent-radio" name="shed-comp-type" value="percent" checked onchange="ShedWiseCalculator.updateShedCompositionLabel(); ShedWiseCalculator.liveCalculate()">
+                <label for="shed-percent-radio">Percentage (%)</label>
+              </div>
+              <div class="toggle-option">
+                <input type="radio" id="shed-weight-radio" name="shed-comp-type" value="weight" onchange="ShedWiseCalculator.updateShedCompositionLabel(); ShedWiseCalculator.liveCalculate()">
+                <label for="shed-weight-radio" id="shed-weight-label">g/L</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col">
+              <label for="shed-composition">Composition Value</label>
+              <input type="number" id="shed-composition" step="0.01" min="0" placeholder="e.g. 10" data-validate="required,positive" oninput="ShedWiseCalculator.liveCalculate()">
+              <div class="error-message" id="shed-composition-error">Please enter a valid composition</div>
+            </div>
+            
+            <div class="form-col">
+              <label for="shed-dose">Required Dose (mg/kg)</label>
+              <input type="number" id="shed-dose" step="0.01" min="0" placeholder="e.g. 20" data-validate="required,positive" oninput="ShedWiseCalculator.liveCalculate()">
+              <div class="error-message" id="shed-dose-error">Please enter a valid dose</div>
+            </div>
+            
+            <div class="form-col">
+              <label for="shed-duration">Duration (days)</label>
+              <input type="number" id="shed-duration" min="1" placeholder="e.g. 5" data-validate="required,positive" oninput="ShedWiseCalculator.liveCalculate()">
+              <div class="error-message" id="shed-duration-error">Please enter a valid duration</div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Live Results for Shed-wise -->
+        <div class="live-results" id="shed-live-results" style="display: none;">
+          <h3 class="section-title">Live Calculation Preview</h3>
+          <div id="shed-live-content"></div>
+        </div>
+
+        <div class="section-title">Shed Details</div>
+        
+        <div class="table-responsive">
+          <table id="sheds-table">
+            <thead>
+              <tr>
+                <th>Shed No.</th>
+                <th>Females Count</th>
+                <th>Avg Female Wt (g)</th>
+                <th>Males Count</th>
+                <th>Avg Male Wt (g)</th>
+                <th class="no-print">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sheds-tbody">
+              <!-- Rows will be added dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="ShedWiseCalculator.addShed()">+ Add Shed</button>
+          <button type="button" class="btn btn-secondary" onclick="ShedWiseCalculator.calculate()">Calculate Doses</button>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" onclick="ShedWiseCalculator.printResults()">🖨 Print Results</button>
+          <button type="button" class="btn btn-danger" onclick="ShedWiseCalculator.reset()">🔄 Reset Calculator</button>
+        </div>
+
+        <div class="result-box" id="shed-results" style="display: none;">
+          <h3 class="section-title">Shed-wise Calculation Results</h3>
+          <div id="shed-results-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===============================
+    // PWA FUNCTIONALITY
+    // ===============================
+    const PWA = {
+      init: function() {
+        this.registerServiceWorker();
+        this.setupInstallPrompt();
+      },
+
+      registerServiceWorker: function() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('UAK PWA: Service Worker registered');
+            })
+            .catch(error => {
+              console.log('UAK PWA: Service Worker registration failed:', error);
+            });
+        }
+      },
+
+      setupInstallPrompt: function() {
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installButton = document.getElementById('installButton');
+        const dismissButton = document.getElementById('dismissButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          
+          setTimeout(() => {
+            installPrompt.classList.add('show');
+          }, 5000);
+        });
+
+        installButton.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+              console.log('UAK PWA: User installed the app');
+            }
+            deferredPrompt = null;
+            installPrompt.classList.remove('show');
+          }
+        });
+
+        dismissButton.addEventListener('click', () => {
+          installPrompt.classList.remove('show');
+        });
+
+        window.addEventListener('appinstalled', () => {
+          deferredPrompt = null;
+          installPrompt.classList.remove('show');
+        });
+      }
+    };
+
+    // ===============================
+    // MATHEMATICAL PRECISION FUNCTIONS
+    // ===============================
+    const MathPrecision = {
+      calculateMgPerUnit: function(composition, compType, medicineType) {
+        if (compType === 'percent') {
+          return composition * 10;
+        } else {
+          if (medicineType === 'liquid') {
+            return composition;
+          } else {
+            return composition;
+          }
+        }
+      },
+
+      calculateDailyDose: function(flockWeight, dosePerKg, mgPerUnit) {
+        const totalMgPerDay = flockWeight * dosePerKg;
+        return totalMgPerDay / mgPerUnit;
+      },
+
+      calculateCourseDose: function(dailyDoseUnits, duration) {
+        return dailyDoseUnits * duration;
+      },
+
+      calculateFlockWeight: function(females, femaleWeight, males, maleWeight) {
+        return ((females * femaleWeight) + (males * maleWeight)) / 1000;
+      }
+    };
+
+    // ===============================
+    // POULTRY CALCULATOR MAIN MODULE
+    // ===============================
+    const PoultryCalculator = (function() {
+      'use strict';
+      
+      return {
+        showPage: function(pageId) {
+          document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+          });
+          document.getElementById(pageId).classList.add('active');
+          window.scrollTo(0, 0);
+        },
+        
+        formatNumber: function(num, decimals = 2) {
+          return parseFloat(num).toFixed(decimals);
+        },
+        
+        escapeHtml: function(text) {
+          const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;',
+            '`': '&#096;'
+          };
+          return String(text).replace(/[&<>"'`]/g, m => map[m]);
+        },
+        
+        validateField: function(field) {
+          const value = field.value.trim();
+          const validations = field.dataset.validate ? field.dataset.validate.split(',') : [];
+          let isValid = true;
+          let errorMessage = '';
+          
+          for (const validation of validations) {
+            switch(validation) {
+              case 'required':
+                if (!value) {
+                  isValid = false;
+                  errorMessage = 'This field is required';
+                }
+                break;
+                
+              case 'positive':
+                if (value && parseFloat(value) <= 0) {
+                  isValid = false;
+                  errorMessage = 'Value must be greater than zero';
+                }
+                break;
+                
+              case 'percentage':
+                if (value && (parseFloat(value) < 0 || parseFloat(value) > 100)) {
+                  isValid = false;
+                  errorMessage = 'Percentage must be between 0 and 100';
+                }
+                break;
+            }
+            
+            if (!isValid) break;
+          }
+          
+          const errorElement = document.getElementById(field.id + '-error');
+          if (errorElement) {
+            if (!isValid) {
+              field.classList.add('error');
+              errorElement.textContent = errorMessage;
+              errorElement.style.display = 'block';
+            } else {
+              field.classList.remove('error');
+              errorElement.style.display = 'none';
+            }
+          }
+          
+          return isValid;
+        },
+        
+        validateForm: function(formId) {
+          const form = document.getElementById(formId);
+          const fields = form.querySelectorAll('[data-validate]');
+          let isValid = true;
+          
+          fields.forEach(field => {
+            if (!this.validateField(field)) {
+              isValid = false;
+            }
+          });
+          
+          return isValid;
+        }
+      };
+    })();
+
+    // ===============================
+    // MEDICINE DOSE CALCULATOR MODULE
+    // ===============================
+    const MedicineDoseCalculator = (function() {
+      'use strict';
+      
+      let bodyWeightData = null;
+      
+      function init() {
+        updateCompositionLabel();
+        
+        document.getElementById('medicine-type').addEventListener('change', updateCompositionLabel);
+        document.querySelectorAll('input[name="comp-type"]').forEach(radio => {
+          radio.addEventListener('change', updateCompositionLabel);
+        });
+        
+        document.querySelectorAll('#medicine-dose-form [data-validate]').forEach(field => {
+          field.addEventListener('blur', function() {
+            PoultryCalculator.validateField(this);
+          });
+        });
+      }
+      
+      function updateCompositionLabel() {
+        const medicineType = document.getElementById('medicine-type').value;
+        const compType = document.querySelector('input[name="comp-type"]:checked').value;
+        const label = document.getElementById('composition-label');
+        const compositionInput = document.getElementById('composition');
+        
+        if (compType === 'percent') {
+          label.textContent = 'Composition (%)';
+          compositionInput.max = 100;
+        } else {
+          label.textContent = medicineType === 'liquid' ? 'Concentration (g/L)' : 'Concentration (g/kg)';
+          compositionInput.removeAttribute('max');
+        }
+        
+        document.getElementById('weight-label').textContent = 
+          medicineType === 'liquid' ? 'g/L' : 'g/kg';
+      }
+      
+      function openWeightModal() {
+        document.getElementById('weight-modal').classList.add('active');
+      }
+      
+      function closeWeightModal() {
+        document.getElementById('weight-modal').classList.remove('active');
+        document.getElementById('body-weight-result').style.display = 'none';
+      }
+      
+      function calculateBodyWeight() {
+        const numFemales = parseFloat(document.getElementById('num-females').value) || 0;
+        const avgFemaleWeight = parseFloat(document.getElementById('avg-female-weight').value) || 0;
+        const numMales = parseFloat(document.getElementById('num-males').value) || 0;
+        const avgMaleWeight = parseFloat(document.getElementById('avg-male-weight').value) || 0;
+        
+        const totalWeightG = (numFemales * avgFemaleWeight) + (numMales * avgMaleWeight);
+        const totalWeightKg = totalWeightG / 1000;
+        
+        const resultElement = document.getElementById('body-weight-result');
+        
+        if (totalWeightKg > 0) {
+          resultElement.innerHTML = `
+            <h4>Weight Calculation Result</h4>
+            <div class="calculation-summary">
+              <div class="result-item">
+                <span>Total Females:</span>
+                <span>${numFemales}</span>
+              </div>
+              <div class="result-item">
+                <span>Average Female Weight:</span>
+                <span>${PoultryCalculator.formatNumber(avgFemaleWeight)} g</span>
+              </div>
+              <div class="result-item">
+                <span>Total Males:</span>
+                <span>${numMales}</span>
+              </div>
+              <div class="result-item">
+                <span>Average Male Weight:</span>
+                <span>${PoultryCalculator.formatNumber(avgMaleWeight)} g</span>
+              </div>
+              <div class="result-item">
+                <span>Total Flock Weight:</span>
+                <span><strong>${PoultryCalculator.formatNumber(totalWeightKg)} kg</strong></span>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-full" onclick="MedicineDoseCalculator.useCalculatedWeight(${totalWeightKg})" style="margin-top: 15px;">
+              Use This Weight
+            </button>
+          `;
+          resultElement.style.display = 'block';
+        } else {
+          resultElement.innerHTML = '<p style="color: var(--danger-red);">Please enter valid values for weight calculation.</p>';
+          resultElement.style.display = 'block';
+        }
+      }
+      
+      function useCalculatedWeight(weight) {
+        document.getElementById('flock-weight').value = PoultryCalculator.formatNumber(weight);
+        closeWeightModal();
+        liveCalculate();
+        
+        document.getElementById('num-females').value = '';
+        document.getElementById('avg-female-weight').value = '';
+        document.getElementById('num-males').value = '';
+        document.getElementById('avg-male-weight').value = '';
+        document.getElementById('body-weight-result').style.display = 'none';
+      }
+      
+      function liveCalculate() {
+        const medicineName = document.getElementById('medicine-name').value.trim();
+        const medicineType = document.getElementById('medicine-type').value;
+        const compType = document.querySelector('input[name="comp-type"]:checked').value;
+        const composition = parseFloat(document.getElementById('composition').value) || 0;
+        const flockWeight = parseFloat(document.getElementById('flock-weight').value) || 0;
+        const dosePerKg = parseFloat(document.getElementById('dose-required').value) || 0;
+        const duration = parseInt(document.getElementById('duration').value) || 0;
+        
+        const hasRequiredData = medicineName && composition > 0 && flockWeight > 0 && dosePerKg > 0 && duration > 0;
+        
+        if (!hasRequiredData) {
+          document.getElementById('medicine-live-results').style.display = 'none';
+          return;
+        }
+        
+        if (compType === 'percent' && composition > 100) {
+          document.getElementById('medicine-live-results').style.display = 'none';
+          return;
+        }
+        
+        const mgPerUnit = MathPrecision.calculateMgPerUnit(composition, compType, medicineType);
+        const dailyDoseUnits = MathPrecision.calculateDailyDose(flockWeight, dosePerKg, mgPerUnit);
+        const totalDoseUnits = MathPrecision.calculateCourseDose(dailyDoseUnits, duration);
+        
+        const unitLabel = medicineType === 'liquid' ? 'mL' : 'g';
+        const compLabel = compType === 'percent' ? '%' : (medicineType === 'liquid' ? 'g/L' : 'g/kg');
+        
+        const liveContent = document.getElementById('medicine-live-content');
+        liveContent.innerHTML = `
+          <div class="live-result-item">
+            <span>Medicine:</span>
+            <span class="live-value">${PoultryCalculator.escapeHtml(medicineName)}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Composition:</span>
+            <span class="live-value">${composition} ${compLabel}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Flock Weight:</span>
+            <span class="live-value">${PoultryCalculator.formatNumber(flockWeight)} kg</span>
+          </div>
+          <div class="live-result-item">
+            <span>Daily Dose:</span>
+            <span class="live-value" style="color: var(--primary-green); font-weight: bold;">${PoultryCalculator.formatNumber(dailyDoseUnits)} ${unitLabel}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Total Course Dose:</span>
+            <span class="live-value" style="color: var(--primary-green); font-weight: bold;">${PoultryCalculator.formatNumber(totalDoseUnits)} ${unitLabel}</span>
+          </div>
+        `;
+        
+        document.getElementById('medicine-live-results').style.display = 'block';
+      }
+      
+      function calculate() {
+        if (!PoultryCalculator.validateForm('medicine-dose-form')) {
+          return;
+        }
+        
+        const medicineName = document.getElementById('medicine-name').value.trim();
+        const medicineType = document.getElementById('medicine-type').value;
+        const compType = document.querySelector('input[name="comp-type"]:checked').value;
+        const composition = parseFloat(document.getElementById('composition').value);
+        const flockWeight = parseFloat(document.getElementById('flock-weight').value);
+        const dosePerKg = parseFloat(document.getElementById('dose-required').value);
+        const duration = parseInt(document.getElementById('duration').value);
+        
+        if (compType === 'percent' && composition > 100) {
+          alert('Percentage composition cannot exceed 100%.');
+          return;
+        }
+        
+        const mgPerUnit = MathPrecision.calculateMgPerUnit(composition, compType, medicineType);
+        const dailyDoseUnits = MathPrecision.calculateDailyDose(flockWeight, dosePerKg, mgPerUnit);
+        const totalDoseUnits = MathPrecision.calculateCourseDose(dailyDoseUnits, duration);
+        
+        const unitLabel = medicineType === 'liquid' ? 'mL' : 'g';
+        const compLabel = compType === 'percent' ? '%' : (medicineType === 'liquid' ? 'g/L' : 'g/kg');
+        
+        const resultContent = `
+            <div class="print-table">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="result-header">
+                                THE UAK - MEDICINE DOSE CALCULATION REPORT
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Medicine Name</strong></td>
+                            <td>${PoultryCalculator.escapeHtml(medicineName)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Medicine Type</strong></td>
+                            <td>${medicineType === 'liquid' ? 'Liquid' : 'Powder'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Composition</strong></td>
+                            <td>${composition} ${compLabel}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flock Weight</strong></td>
+                            <td>${PoultryCalculator.formatNumber(flockWeight)} kg</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dose Required</strong></td>
+                            <td>${PoultryCalculator.formatNumber(dosePerKg)} mg/kg</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Duration</strong></td>
+                            <td>${duration} days</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>DAILY DOSE</strong></td>
+                            <td><strong>${PoultryCalculator.formatNumber(dailyDoseUnits)} ${unitLabel}</strong></td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>TOTAL COURSE DOSE</strong></td>
+                            <td><strong>${PoultryCalculator.formatNumber(totalDoseUnits)} ${unitLabel}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="professional-quote">
+                "THE UAK - Passion Made Profession" ~Dr Usman Ali
+            </div>
+        `;
+        
+        document.getElementById('medicine-result-content').innerHTML = resultContent;
+        document.getElementById('medicine-result').style.display = 'block';
+      }
+
+      function printResults() {
+        calculate();
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+      
+      function reset() {
+        document.getElementById('medicine-dose-form').reset();
+        document.getElementById('medicine-result').style.display = 'none';
+        document.getElementById('medicine-live-results').style.display = 'none';
+        bodyWeightData = null;
+        updateCompositionLabel();
+      }
+      
+      document.addEventListener('DOMContentLoaded', init);
+      
+      return {
+        calculate: calculate,
+        reset: reset,
+        openWeightModal: openWeightModal,
+        closeWeightModal: closeWeightModal,
+        calculateBodyWeight: calculateBodyWeight,
+        useCalculatedWeight: useCalculatedWeight,
+        liveCalculate: liveCalculate,
+        updateCompositionLabel: updateCompositionLabel,
+        printResults: printResults
+      };
+    })();
+
+    // ===============================
+    // IN-FEED DOSE CALCULATOR MODULE
+    // ===============================
+    const InFeedCalculator = (function() {
+      'use strict';
+      
+      let medicineIdCounter = 0;
+      const medicines = [];
+      
+      function init() {
+        const courseDaysSelect = document.getElementById('course-days');
+        for (let i = 1; i <= 30; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = i;
+          courseDaysSelect.appendChild(option);
+        }
+        courseDaysSelect.value = 5;
+        
+        addMedicine();
+        
+        const inputIds = ['female-count', 'female-weight', 'male-count', 'male-weight', 
+                         'female-feed', 'male-feed', 'course-days'];
+        inputIds.forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener('input', recalculate);
+          }
+        });
+      }
+      
+      function addMedicine(medicineData = {}) {
+        medicineIdCounter++;
+        const medicine = {
+          id: medicineIdCounter,
+          name: medicineData.name || '',
+          type: medicineData.type || 'powder',
+          doseFemale: medicineData.doseFemale || '',
+          doseMale: medicineData.doseMale || ''
+        };
+        
+        medicines.push(medicine);
+        renderMedicinesTable();
+        
+        const newRow = document.querySelector(`[data-medicine-id="${medicine.id}"]`);
+        if (newRow) {
+          newRow.querySelector('.medicine-name').addEventListener('input', function() {
+            medicine.name = this.value;
+            recalculate();
+          });
+          
+          newRow.querySelector('.medicine-type').addEventListener('change', function() {
+            medicine.type = this.value;
+            recalculate();
+          });
+          
+          newRow.querySelector('.dose-female').addEventListener('input', function() {
+            medicine.doseFemale = this.value;
+            recalculate();
+          });
+          
+          newRow.querySelector('.dose-male').addEventListener('input', function() {
+            medicine.doseMale = this.value;
+            recalculate();
+          });
+        }
+        
+        return medicine;
+      }
+      
+      function removeMedicine(id) {
+        const index = medicines.findIndex(med => med.id === id);
+        if (index !== -1) {
+          medicines.splice(index, 1);
+          renderMedicinesTable();
+          recalculate();
+        }
+      }
+      
+      function renderMedicinesTable() {
+        const tbody = document.getElementById('medicines-tbody');
+        tbody.innerHTML = '';
+        
+        medicines.forEach(medicine => {
+          const row = document.createElement('tr');
+          row.setAttribute('data-medicine-id', medicine.id);
+          
+          row.innerHTML = `
+            <td>
+              <input type="text" class="medicine-name" value="${PoultryCalculator.escapeHtml(medicine.name)}" placeholder="Medicine Name">
+            </td>
+            <td>
+              <select class="medicine-type">
+                <option value="liquid" ${medicine.type === 'liquid' ? 'selected' : ''}>Liquid (mL)</option>
+                <option value="powder" ${medicine.type === 'powder' ? 'selected' : ''}>Powder (g)</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" class="dose-female" step="0.01" min="0" value="${medicine.doseFemale}" placeholder="mg/kg">
+            </td>
+            <td>
+              <input type="number" class="dose-male" step="0.01" min="0" value="${medicine.doseMale}" placeholder="mg/kg">
+            </td>
+            <td class="no-print">
+              <button type="button" class="btn btn-danger btn-small" onclick="InFeedCalculator.removeMedicine(${medicine.id})">Remove</button>
+            </td>
+          `;
+          
+          tbody.appendChild(row);
+        });
+      }
+      
+      function recalculate() {
+        const flockNumber = document.getElementById('flock-number').value || 'Unknown';
+        const femaleCount = parseFloat(document.getElementById('female-count').value) || 0;
+        const femaleWeight = parseFloat(document.getElementById('female-weight').value) || 0;
+        const maleCount = parseFloat(document.getElementById('male-count').value) || 0;
+        const maleWeight = parseFloat(document.getElementById('male-weight').value) || 0;
+        const femaleFeed = parseFloat(document.getElementById('female-feed').value) || 0;
+        const maleFeed = parseFloat(document.getElementById('male-feed').value) || 0;
+        const courseDays = parseInt(document.getElementById('course-days').value) || 1;
+        
+        const femaleDailyFeedG = femaleCount * femaleFeed;
+        const maleDailyFeedG = maleCount * maleFeed;
+        const totalDailyFeedG = femaleDailyFeedG + maleDailyFeedG;
+        
+        const femaleDailyFeedKg = femaleDailyFeedG / 1000;
+        const maleDailyFeedKg = maleDailyFeedG / 1000;
+        const totalDailyFeedKg = totalDailyFeedG / 1000;
+        
+        const totalCourseFeedKg = totalDailyFeedKg * courseDays;
+        const dailyBags = totalDailyFeedKg / 50;
+        const courseBags = totalCourseFeedKg / 50;
+        
+        const feedTotalsHtml = `
+          <div class="calculation-summary">
+            <div class="result-item">
+              <span>Total Daily Feed:</span>
+              <span>${PoultryCalculator.formatNumber(totalDailyFeedKg)} kg (${PoultryCalculator.formatNumber(dailyBags)} bags)</span>
+            </div>
+            <div class="result-item">
+              <span>Female Daily Feed:</span>
+              <span>${PoultryCalculator.formatNumber(femaleDailyFeedKg)} kg</span>
+            </div>
+            <div class="result-item">
+              <span>Male Daily Feed:</span>
+              <span>${PoultryCalculator.formatNumber(maleDailyFeedKg)} kg</span>
+            </div>
+            <div class="result-item">
+              <span>Total Course Feed:</span>
+              <span>${PoultryCalculator.formatNumber(totalCourseFeedKg)} kg (${PoultryCalculator.formatNumber(courseBags)} bags)</span>
+            </div>
+          </div>
+        `;
+        
+        let medicineResultsHtml = '';
+        
+        medicines.forEach(medicine => {
+          if (!medicine.name && !medicine.doseFemale && !medicine.doseMale) return;
+          
+          const doseFemale = parseFloat(medicine.doseFemale) || 0;
+          const doseMale = parseFloat(medicine.doseMale) || 0;
+          
+          const femaleTotalKg = (femaleCount * femaleWeight) / 1000;
+          const maleTotalKg = (maleCount * maleWeight) / 1000;
+          
+          const femaleMgPerDay = doseFemale * femaleTotalKg;
+          const maleMgPerDay = doseMale * maleTotalKg;
+          const totalMgPerDay = femaleMgPerDay + maleMgPerDay;
+          
+          const femaleGPerDay = femaleMgPerDay / 1000;
+          const maleGPerDay = maleMgPerDay / 1000;
+          const totalGPerDay = totalMgPerDay / 1000;
+          
+          const femaleGCourse = femaleGPerDay * courseDays;
+          const maleGCourse = maleGPerDay * courseDays;
+          const totalGCourse = totalGPerDay * courseDays;
+          
+          const gramsPerTonFemale = femaleFeed > 0 ? (femaleWeight * doseFemale) / femaleFeed : 0;
+          const gramsPerTonMale = maleFeed > 0 ? (maleWeight * doseMale) / maleFeed : 0;
+          
+          medicineResultsHtml += `
+            <div class="medicine-result" style="margin-bottom: 25px;">
+              <h4>${PoultryCalculator.escapeHtml(medicine.name || 'Unnamed Medicine')} (${medicine.type === 'liquid' ? 'Liquid' : 'Powder'})</h4>
+              <div class="calculation-summary">
+                <div class="result-item">
+                  <span>Female Dose:</span>
+                  <span>${PoultryCalculator.formatNumber(doseFemale)} mg/kg</span>
+                </div>
+                <div class="result-item">
+                  <span>Male Dose:</span>
+                  <span>${PoultryCalculator.formatNumber(doseMale)} mg/kg</span>
+                </div>
+                <div class="result-item">
+                  <span>Daily Requirement (Female):</span>
+                  <span>${PoultryCalculator.formatNumber(femaleGPerDay)} g</span>
+                </div>
+                <div class="result-item">
+                  <span>Daily Requirement (Male):</span>
+                  <span>${PoultryCalculator.formatNumber(maleGPerDay)} g</span>
+                </div>
+                <div class="result-item">
+                  <span>Total Daily Requirement:</span>
+                  <span>${PoultryCalculator.formatNumber(totalGPerDay)} g</span>
+                </div>
+                <div class="result-item">
+                  <span>Total Course Requirement:</span>
+                  <span>${PoultryCalculator.formatNumber(totalGCourse)} g</span>
+                </div>
+                <div class="result-item">
+                  <span>Mixing Ratio (Female):</span>
+                  <span>${PoultryCalculator.formatNumber(gramsPerTonFemale)} g/ton feed</span>
+                </div>
+                <div class="result-item">
+                  <span>Mixing Ratio (Male):</span>
+                  <span>${PoultryCalculator.formatNumber(gramsPerTonMale)} g/ton feed</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        const resultsElement = document.getElementById('in-feed-results');
+        if (medicineResultsHtml) {
+          resultsElement.innerHTML = feedTotalsHtml + medicineResultsHtml;
+          updatePrintTable(flockNumber, femaleCount, femaleWeight, maleCount, maleWeight, courseDays);
+        } else {
+          resultsElement.innerHTML = '<p>Add medicines and enter flock details to see results.</p>';
+        }
+      }
+
+      function updatePrintTable(flockNumber, femaleCount, femaleWeight, maleCount, maleWeight, courseDays) {
+        const printTable = document.getElementById('in-feed-print-table');
+        if (!printTable) return;
+        
+        let printHtml = `
+          <div class="print-table">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th colspan="4" class="result-header">
+                    THE UAK - IN-FEED MEDICINE DOSE CALCULATION REPORT
+                  </th>
+                </tr>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Flock Number</strong></td>
+                  <td>${flockNumber}</td>
+                  <td><strong>Course Duration</strong></td>
+                  <td>${courseDays} days</td>
+                </tr>
+                <tr>
+                  <td><strong>Female Count</strong></td>
+                  <td>${femaleCount}</td>
+                  <td><strong>Avg Female Weight</strong></td>
+                  <td>${PoultryCalculator.formatNumber(femaleWeight)} g</td>
+                </tr>
+                <tr>
+                  <td><strong>Male Count</strong></td>
+                  <td>${maleCount}</td>
+                  <td><strong>Avg Male Weight</strong></td>
+                  <td>${PoultryCalculator.formatNumber(maleWeight)} g</td>
+                </tr>
+              </tbody>
+            </table>
+        `;
+        
+        medicines.forEach(medicine => {
+          if (!medicine.name && !medicine.doseFemale && !medicine.doseMale) return;
+          
+          const doseFemale = parseFloat(medicine.doseFemale) || 0;
+          const doseMale = parseFloat(medicine.doseMale) || 0;
+          
+          const femaleTotalKg = (femaleCount * femaleWeight) / 1000;
+          const maleTotalKg = (maleCount * maleWeight) / 1000;
+          const femaleDailyG = (doseFemale * femaleTotalKg) / 1000;
+          const maleDailyG = (doseMale * maleTotalKg) / 1000;
+          const totalDailyG = femaleDailyG + maleDailyG;
+          
+          printHtml += `
+            <table class="result-table" style="margin-top: 20px;">
+              <thead>
+                <tr>
+                  <th colspan="4" class="result-header" style="background: #0288d1 !important;">
+                    ${PoultryCalculator.escapeHtml(medicine.name || 'Unnamed Medicine')} (${medicine.type === 'liquid' ? 'Liquid' : 'Powder'})
+                  </th>
+                </tr>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Female</th>
+                  <th>Male</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Dose (mg/kg)</strong></td>
+                  <td>${PoultryCalculator.formatNumber(doseFemale)}</td>
+                  <td>${PoultryCalculator.formatNumber(doseMale)}</td>
+                  <td>-</td>
+                </tr>
+                <tr class="highlight">
+                  <td><strong>Daily Requirement (g)</strong></td>
+                  <td>${PoultryCalculator.formatNumber(femaleDailyG)}</td>
+                  <td>${PoultryCalculator.formatNumber(maleDailyG)}</td>
+                  <td>${PoultryCalculator.formatNumber(totalDailyG)}</td>
+                </tr>
+                <tr class="highlight">
+                  <td><strong>Course Requirement (g)</strong></td>
+                  <td>${PoultryCalculator.formatNumber(femaleDailyG * courseDays)}</td>
+                  <td>${PoultryCalculator.formatNumber(maleDailyG * courseDays)}</td>
+                  <td>${PoultryCalculator.formatNumber(totalDailyG * courseDays)}</td>
+                </tr>
+              </tbody>
+            </table>
+          `;
+        });
+        
+        printHtml += `
+            <div class="professional-quote">
+              "THE UAK - Passion Made Profession" ~Dr Usman Ali
+            </div>
+          </div>
+        `;
+        
+        printTable.innerHTML = printHtml;
+      }
+
+      function printResults() {
+        recalculate();
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+      
+      function downloadReport() {
+        const flockNumber = document.getElementById('flock-number').value || 'Unknown';
+        const femaleCount = parseFloat(document.getElementById('female-count').value) || 0;
+        const femaleWeight = parseFloat(document.getElementById('female-weight').value) || 0;
+        const maleCount = parseFloat(document.getElementById('male-count').value) || 0;
+        const maleWeight = parseFloat(document.getElementById('male-weight').value) || 0;
+        const courseDays = parseInt(document.getElementById('course-days').value) || 1;
+        
+        let csv = [
+          ['THE UAK - Poultry In-Feed Medicine Dose Report'],
+          ['Flock Number:', flockNumber],
+          [''],
+          ['Flock Details'],
+          ['Females Count', 'Avg Female Weight (g)', 'Males Count', 'Avg Male Weight (g)', 'Course Duration (days)'],
+          [femaleCount, femaleWeight, maleCount, maleWeight, courseDays],
+          [''],
+          ['Medicines'],
+          ['Name', 'Type', 'Female Dose (mg/kg)', 'Male Dose (mg/kg)']
+        ];
+        
+        medicines.forEach(medicine => {
+          if (medicine.name || medicine.doseFemale || medicine.doseMale) {
+            csv.push([
+              medicine.name,
+              medicine.type,
+              medicine.doseFemale,
+              medicine.doseMale
+            ]);
+          }
+        });
+        
+        const csvString = csv.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+        
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `uak_poultry_dose_report_${flockNumber}_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      
+      function reset() {
+        medicines.length = 0;
+        medicineIdCounter = 0;
+        
+        document.getElementById('flock-number').value = '';
+        document.getElementById('female-count').value = '';
+        document.getElementById('female-weight').value = '';
+        document.getElementById('male-count').value = '';
+        document.getElementById('male-weight').value = '';
+        document.getElementById('female-feed').value = '';
+        document.getElementById('male-feed').value = '';
+        document.getElementById('course-days').value = 5;
+        
+        addMedicine();
+        
+        document.getElementById('in-feed-results').innerHTML = 
+          '<p>Add medicines and enter flock details to see results.</p>';
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        init();
+        const resultsContainer = document.getElementById('in-feed-results');
+        const printTable = document.createElement('div');
+        printTable.id = 'in-feed-print-table';
+        printTable.className = 'print-table';
+        resultsContainer.appendChild(printTable);
+      });
+      
+      return {
+        addMedicine: addMedicine,
+        removeMedicine: removeMedicine,
+        downloadReport: downloadReport,
+        reset: reset,
+        recalculate: recalculate,
+        printResults: printResults
+      };
+    })();
+
+    // ===============================
+    // SHED-WISE DOSE CALCULATOR MODULE
+    // ===============================
+    const ShedWiseCalculator = (function() {
+      'use strict';
+      
+      let shedIdCounter = 0;
+      const sheds = [];
+      
+      function init() {
+        updateShedCompositionLabel();
+        
+        document.getElementById('shed-medicine-type').addEventListener('change', updateShedCompositionLabel);
+        document.querySelectorAll('input[name="shed-comp-type"]').forEach(radio => {
+          radio.addEventListener('change', updateShedCompositionLabel);
+        });
+        
+        document.querySelectorAll('#shed-dose-form [data-validate]').forEach(field => {
+          field.addEventListener('blur', function() {
+            PoultryCalculator.validateField(this);
+          });
+        });
+        
+        addShed();
+      }
+      
+      function updateShedCompositionLabel() {
+        const medicineType = document.getElementById('shed-medicine-type').value;
+        const compType = document.querySelector('input[name="shed-comp-type"]:checked').value;
+        const label = document.getElementById('shed-weight-label');
+        
+        label.textContent = medicineType === 'liquid' ? 'g/L' : 'g/kg';
+      }
+      
+      function addShed(shedData = {}) {
+        shedIdCounter++;
+        const shed = {
+          id: shedIdCounter,
+          number: shedData.number || shedIdCounter,
+          females: shedData.females || '',
+          femaleWeight: shedData.femaleWeight || '',
+          males: shedData.males || '',
+          maleWeight: shedData.maleWeight || ''
+        };
+        
+        sheds.push(shed);
+        renderShedsTable();
+        
+        setTimeout(() => {
+          const newRow = document.querySelector(`[data-shed-id="${shed.id}"]`);
+          if (newRow) {
+            const maleWeightInput = newRow.querySelector('.shed-male-weight');
+            if (maleWeightInput) {
+              maleWeightInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  addShed();
+                  setTimeout(() => {
+                    const rows = document.querySelectorAll('#sheds-tbody tr');
+                    const lastRow = rows[rows.length - 1];
+                    if (lastRow) {
+                      lastRow.querySelector('.shed-females').focus();
+                    }
+                  }, 100);
+                }
+                
+                if (e.key === 'Delete' && e.shiftKey) {
+                  e.preventDefault();
+                  removeShed(shed.id);
+                }
+              });
+            }
+            
+            const inputs = newRow.querySelectorAll('input');
+            inputs.forEach(input => {
+              input.addEventListener('input', function() {
+                const row = this.closest('tr');
+                const shedId = parseInt(row.getAttribute('data-shed-id'));
+                const shed = sheds.find(s => s.id === shedId);
+                
+                if (shed) {
+                  if (this.classList.contains('shed-females')) {
+                    shed.females = this.value;
+                  } else if (this.classList.contains('shed-female-weight')) {
+                    shed.femaleWeight = this.value;
+                  } else if (this.classList.contains('shed-males')) {
+                    shed.males = this.value;
+                  } else if (this.classList.contains('shed-male-weight')) {
+                    shed.maleWeight = this.value;
+                  } else if (this.classList.contains('shed-number')) {
+                    shed.number = this.value;
+                  }
+                }
+                
+                liveCalculate();
+              });
+            });
+          }
+        }, 100);
+        
+        return shed;
+      }
+      
+      function removeShed(id) {
+        const index = sheds.findIndex(shed => shed.id === id);
+        if (index !== -1) {
+          sheds.splice(index, 1);
+          renderShedsTable();
+          liveCalculate();
+        }
+      }
+      
+      function updateShedNumber(id, newNumber) {
+        const shed = sheds.find(s => s.id === id);
+        if (shed) {
+          shed.number = newNumber;
+        }
+      }
+      
+      function renderShedsTable() {
+        const tbody = document.getElementById('sheds-tbody');
+        tbody.innerHTML = '';
+        
+        sheds.forEach(shed => {
+          const row = document.createElement('tr');
+          row.setAttribute('data-shed-id', shed.id);
+          
+          row.innerHTML = `
+            <td>
+              <input type="number" class="shed-number" value="${shed.number}" min="1" 
+                     onchange="ShedWiseCalculator.updateShedNumber(${shed.id}, this.value)">
+            </td>
+            <td>
+              <input type="number" class="shed-females" value="${shed.females}" min="0" placeholder="0"
+                     onchange="sheds.find(s => s.id === ${shed.id}).females = this.value">
+            </td>
+            <td>
+              <input type="number" class="shed-female-weight" value="${shed.femaleWeight}" min="0" step="1" placeholder="0"
+                     onchange="sheds.find(s => s.id === ${shed.id}).femaleWeight = this.value">
+            </td>
+            <td>
+              <input type="number" class="shed-males" value="${shed.males}" min="0" placeholder="0"
+                     onchange="sheds.find(s => s.id === ${shed.id}).males = this.value">
+            </td>
+            <td>
+              <input type="number" class="shed-male-weight" value="${shed.maleWeight}" min="0" step="1" placeholder="0"
+                     onchange="sheds.find(s => s.id === ${shed.id}).maleWeight = this.value">
+            </td>
+            <td class="no-print">
+              <button type="button" class="btn btn-danger btn-small" 
+                      onclick="ShedWiseCalculator.removeShed(${shed.id})">Remove</button>
+            </td>
+          `;
+          
+          tbody.appendChild(row);
+        });
+      }
+      
+      function liveCalculate() {
+        const medicineName = document.getElementById('shed-medicine-name').value.trim();
+        const medicineType = document.getElementById('shed-medicine-type').value;
+        const compType = document.querySelector('input[name="shed-comp-type"]:checked').value;
+        const composition = parseFloat(document.getElementById('shed-composition').value) || 0;
+        const dosePerKg = parseFloat(document.getElementById('shed-dose').value) || 0;
+        const duration = parseInt(document.getElementById('shed-duration').value) || 0;
+        
+        const hasRequiredData = medicineName && composition > 0 && dosePerKg > 0 && duration > 0;
+        
+        if (!hasRequiredData) {
+          document.getElementById('shed-live-results').style.display = 'none';
+          return;
+        }
+        
+        if (compType === 'percent' && composition > 100) {
+          document.getElementById('shed-live-results').style.display = 'none';
+          return;
+        }
+        
+        const mgPerUnit = MathPrecision.calculateMgPerUnit(composition, compType, medicineType);
+        const unitLabel = medicineType === 'liquid' ? 'mL' : 'g';
+        
+        let totalFlockWeight = 0;
+        let totalDailyUnits = 0;
+        let shedCount = 0;
+        
+        sheds.forEach(shed => {
+          const females = parseFloat(shed.females) || 0;
+          const femaleWeight = parseFloat(shed.femaleWeight) || 0;
+          const males = parseFloat(shed.males) || 0;
+          const maleWeight = parseFloat(shed.maleWeight) || 0;
+          
+          const flockWeight = MathPrecision.calculateFlockWeight(females, femaleWeight, males, maleWeight);
+          
+          if (flockWeight > 0) {
+            const dailyUnits = MathPrecision.calculateDailyDose(flockWeight, dosePerKg, mgPerUnit);
+            
+            totalFlockWeight += flockWeight;
+            totalDailyUnits += dailyUnits;
+            shedCount++;
+          }
+        });
+        
+        if (shedCount === 0) {
+          document.getElementById('shed-live-results').style.display = 'none';
+          return;
+        }
+        
+        const totalCourseUnits = MathPrecision.calculateCourseDose(totalDailyUnits, duration);
+        
+        const liveContent = document.getElementById('shed-live-content');
+        liveContent.innerHTML = `
+          <div class="live-result-item">
+            <span>Medicine:</span>
+            <span class="live-value">${PoultryCalculator.escapeHtml(medicineName)}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Total Sheds:</span>
+            <span class="live-value">${shedCount}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Total Flock Weight:</span>
+            <span class="live-value">${PoultryCalculator.formatNumber(totalFlockWeight)} kg</span>
+          </div>
+          <div class="live-result-item">
+            <span>Total Daily Dose:</span>
+            <span class="live-value" style="color: var(--primary-green); font-weight: bold;">${PoultryCalculator.formatNumber(totalDailyUnits)} ${unitLabel}</span>
+          </div>
+          <div class="live-result-item">
+            <span>Total Course Dose:</span>
+            <span class="live-value" style="color: var(--primary-green); font-weight: bold;">${PoultryCalculator.formatNumber(totalCourseUnits)} ${unitLabel}</span>
+          </div>
+        `;
+        
+        document.getElementById('shed-live-results').style.display = 'block';
+      }
+      
+      function calculate() {
+        if (!PoultryCalculator.validateForm('shed-dose-form')) {
+          return;
+        }
+        
+        const medicineName = document.getElementById('shed-medicine-name').value.trim();
+        const medicineType = document.getElementById('shed-medicine-type').value;
+        const compType = document.querySelector('input[name="shed-comp-type"]:checked').value;
+        const composition = parseFloat(document.getElementById('shed-composition').value);
+        const dosePerKg = parseFloat(document.getElementById('shed-dose').value);
+        const duration = parseInt(document.getElementById('shed-duration').value);
+        
+        if (compType === 'percent' && composition > 100) {
+          alert('Percentage composition cannot exceed 100%.');
+          return;
+        }
+        
+        const mgPerUnit = MathPrecision.calculateMgPerUnit(composition, compType, medicineType);
+        const unitLabel = medicineType === 'liquid' ? 'mL' : 'g';
+        const compLabel = compType === 'percent' ? '%' : (medicineType === 'liquid' ? 'g/L' : 'g/kg');
+        
+        let totalFlockWeight = 0;
+        let totalDailyUnits = 0;
+        let totalCourseUnits = 0;
+        
+        let shedRowsHtml = '';
+        let shedCount = 0;
+        
+        document.querySelectorAll('#sheds-tbody tr').forEach((row, index) => {
+          const shedNumber = row.querySelector('.shed-number').value || (index + 1);
+          const females = parseFloat(row.querySelector('.shed-females').value) || 0;
+          const femaleWeight = parseFloat(row.querySelector('.shed-female-weight').value) || 0;
+          const males = parseFloat(row.querySelector('.shed-males').value) || 0;
+          const maleWeight = parseFloat(row.querySelector('.shed-male-weight').value) || 0;
+          
+          const flockWeight = MathPrecision.calculateFlockWeight(females, femaleWeight, males, maleWeight);
+          
+          if (flockWeight > 0) {
+            const dailyUnits = MathPrecision.calculateDailyDose(flockWeight, dosePerKg, mgPerUnit);
+            const courseUnits = MathPrecision.calculateCourseDose(dailyUnits, duration);
+            
+            totalFlockWeight += flockWeight;
+            totalDailyUnits += dailyUnits;
+            totalCourseUnits += courseUnits;
+            shedCount++;
+            
+            shedRowsHtml += `
+              <tr>
+                <td>${shedNumber}</td>
+                <td>${PoultryCalculator.formatNumber(flockWeight)}</td>
+                <td>${PoultryCalculator.formatNumber(dailyUnits)}</td>
+                <td>${PoultryCalculator.formatNumber(courseUnits)}</td>
+              </tr>
+            `;
+          }
+        });
+        
+        let resultsHtml = `
+          <div class="print-table">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th colspan="4" class="result-header">
+                    THE UAK - SHED-WISE DOSE CALCULATION REPORT
+                  </th>
+                </tr>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Medicine</strong></td>
+                  <td>${PoultryCalculator.escapeHtml(medicineName)}</td>
+                  <td><strong>Type</strong></td>
+                  <td>${medicineType === 'liquid' ? 'Liquid' : 'Powder'}</td>
+                </tr>
+                <tr>
+                  <td><strong>Composition</strong></td>
+                  <td>${composition} ${compLabel}</td>
+                  <td><strong>Dose</strong></td>
+                  <td>${PoultryCalculator.formatNumber(dosePerKg)} mg/kg</td>
+                </tr>
+                <tr>
+                  <td><strong>Duration</strong></td>
+                  <td colspan="3">${duration} days</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <table class="result-table" style="margin-top:20px;">
+              <thead>
+                <tr>
+                  <th>Shed No</th>
+                  <th>Flock Weight (kg)</th>
+                  <th>Daily Dose (${unitLabel})</th>
+                  <th>Total Course (${unitLabel})</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${shedRowsHtml}
+                <tr class="highlight">
+                  <td><strong>TOTAL (${shedCount} Sheds)</strong></td>
+                  <td><strong>${PoultryCalculator.formatNumber(totalFlockWeight)} kg</strong></td>
+                  <td><strong>${PoultryCalculator.formatNumber(totalDailyUnits)} ${unitLabel}</strong></td>
+                  <td><strong>${PoultryCalculator.formatNumber(totalCourseUnits)} ${unitLabel}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="professional-quote">
+            "THE UAK - Passion Made Profession" ~Dr Usman Ali
+          </div>
+        `;
+        
+        document.getElementById('shed-results-content').innerHTML = resultsHtml;
+        document.getElementById('shed-results').style.display = 'block';
+      }
+
+      function printResults() {
+        calculate();
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+      
+      function reset() {
+        sheds.length = 0;
+        shedIdCounter = 0;
+        document.getElementById('shed-dose-form').reset();
+        addShed();
+        document.getElementById('shed-results').style.display = 'none';
+        document.getElementById('shed-live-results').style.display = 'none';
+        updateShedCompositionLabel();
+      }
+      
+      document.addEventListener('DOMContentLoaded', init);
+      
+      return {
+        addShed: addShed,
+        removeShed: removeShed,
+        updateShedNumber: updateShedNumber,
+        calculate: calculate,
+        reset: reset,
+        liveCalculate: liveCalculate,
+        updateShedCompositionLabel: updateShedCompositionLabel,
+        printResults: printResults
+      };
+    })();
+
+    // Initialize all calculators and PWA when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      PWA.init();
+      MedicineDoseCalculator.init();
+      InFeedCalculator.init();
+      ShedWiseCalculator.init();
+    });
+  </script>
+</body>
+</html>
