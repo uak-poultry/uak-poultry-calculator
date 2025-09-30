@@ -2,7 +2,7 @@
   "name": "THE UAK - Poultry Calculator",
   "short_name": "UAK Poultry Pro",
   "description": "Passion Made Profession - Advanced Poultry Medicine Calculators by Dr. Usman Ali",
-  "start_url": "/",
+  "start_url": "/uak-poultry-calculator/",
   "display": "standalone",
   "theme_color": "#2e7d32",
   "background_color": "#f9fdf9",
