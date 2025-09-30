@@ -18,13 +18,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="UAK Poultry">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' fill='%232e7d32' rx='35'/><circle cx='90' cy='70' r='25' fill='%23ffb300'/><path d='M90 100 L70 130 L60 145 L90 130 L120 145 L110 130 Z' fill='%23ffb300'/><text x='90' y='165' font-family='Arial' font-size='32' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%232e7d32'/><stop offset='100%' stop-color='%230288d1'/></linearGradient></defs><rect width='180' height='180' fill='url(%23bg)' rx='35'/><path d='M90 45 C75 45 65 60 65 75 C65 90 75 105 90 105 C105 105 115 90 115 75 C115 60 105 45 90 45 Z' fill='%23ffb300'/><path d='M115 75 L130 65 L135 70 L120 80 Z' fill='%23ffb300'/><circle cx='85' cy='70' r='5' fill='%23333'/><circle cx='95' cy='70' r='5' fill='%23333'/><text x='90' y='140' font-family='Arial' font-size='28' font-weight='bold' text-anchor='middle' fill='white'>UAK</text><text x='90' y='160' font-family='Arial' font-size='12' text-anchor='middle' fill='%23ffeb3b'>PRO</text></svg>">
   
   <!-- Microsoft Tile Color -->
   <meta name="msapplication-TileColor" content="#2e7d32">
   
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232e7d32' rx='20'/><circle cx='50' cy='40' r='15' fill='%23ffb300'/><path d='M50 55 L35 70 L30 80 L50 70 L70 80 L65 70 Z' fill='%23ffb300'/><text x='50' y='90' font-family='Arial' font-size='20' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg2' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%232e7d32'/><stop offset='100%' stop-color='%230288d1'/></linearGradient></defs><rect width='100' height='100' fill='url(%23bg2)' rx='20'/><circle cx='50' cy='40' r='12' fill='%23ffb300'/><path d='M50 50 L40 65 L35 72 L50 62 L65 72 L60 65 Z' fill='%23ffb300'/><circle cx='45' cy='38' r='2' fill='%23333'/><circle cx='55' cy='38' r='2' fill='%23333'/><text x='50' y='88' font-family='Arial' font-size='16' font-weight='bold' text-anchor='middle' fill='white'>UAK</text></svg>">
 
   <style>
     /* === CSS VARIABLES & RESET === */
@@ -751,6 +751,70 @@
       background: #f5f5f5;
       color: #666;
     }
+
+    /* === SHED-WISE CALCULATOR MOBILE FIXES === */
+    @media (max-width: 768px) {
+      #sheds-table input {
+        min-height: 44px;
+        font-size: 16px !important;
+        padding: 12px 8px !important;
+        width: 100% !important;
+      }
+      
+      #sheds-table td {
+        padding: 8px 4px !important;
+        min-width: 60px;
+      }
+      
+      #sheds-table .shed-number {
+        min-width: 70px !important;
+      }
+      
+      #sheds-table .shed-females,
+      #sheds-table .shed-males {
+        min-width: 80px !important;
+      }
+      
+      #sheds-table .shed-female-weight,
+      #sheds-table .shed-male-weight {
+        min-width: 100px !important;
+      }
+    }
+
+    /* Ensure all inputs are easily tappable on mobile */
+    input, select {
+      min-height: 44px;
+      font-size: 16px;
+    }
+
+    #sheds-table input {
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      text-align: center;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    #sheds-table input:focus {
+      border-color: var(--primary-blue);
+      background: #f8fdff;
+      outline: none;
+    }
+
+    /* === ROOSTER HEAD STYLING === */
+    .rooster-head {
+      font-size: 2.5em;
+      margin-right: 10px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+
+    .uak-header-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -772,9 +836,12 @@
           <div class="sub-text">PRO</div>
         </div>
         <div>
-          <h1 class="main-heading">THE UAK</h1>
+          <div class="uak-header-main">
+            <div class="rooster-head">🐓</div>
+            <h1 class="main-heading">THE UAK</h1>
+          </div>
           <p class="sub-heading">Passion Made Profession</p>
-          <p class="uak-tagline">Poultry Medicine Dose Calculators</p>
+          <p class="uak-tagline">by Dr. Usman Ali</p>
         </div>
       </div>
     </header>
@@ -813,7 +880,7 @@
 
     <footer>
       © 2025 THE UAK - Passion Made Profession | Poultry Dose Calculators
-      <div class="professional-quote">"BY A PROFESSIONAL - FOR THE PROFESSIONALS" ~Dr Usman Ali</div>
+      <div class="professional-quote">"by a professional - for the professionals" ~Dr Usman Ali</div>
     </footer>
   </div>
 
@@ -822,12 +889,15 @@
     <div class="container">
       <div class="header-gradient">
         <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
-        <h1 class="main-heading">THE UAK</h1>
-        <p class="sub-heading">Medicine Dose Calculator | Passion Made Profession</p>
+        <div class="uak-header-main">
+          <div class="rooster-head">🐓</div>
+          <h1 class="main-heading">THE UAK</h1>
+        </div>
+        <p class="sub-heading">Passion Made Profession</p>
       </div>
 
       <div class="content-box">
-        <h2 class="calculator-title">Precise Medication Dosing</h2>
+        <h2 class="calculator-title">Medicine Dose Calculator</h2>
         <div class="heading-underline"></div>
 
         <form id="medicine-dose-form">
@@ -962,12 +1032,15 @@
     <div class="container">
       <div class="header-gradient">
         <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
-        <h1 class="main-heading">THE UAK</h1>
-        <p class="sub-heading">In-Feed Dose Calculator | Passion Made Profession</p>
+        <div class="uak-header-main">
+          <div class="rooster-head">🐓</div>
+          <h1 class="main-heading">THE UAK</h1>
+        </div>
+        <p class="sub-heading">Passion Made Profession</p>
       </div>
 
       <div class="content-box">
-        <h2 class="calculator-title">In-Feed Medication Calculator</h2>
+        <h2 class="calculator-title">In-Feed Dose Calculator</h2>
         <div class="heading-underline"></div>
 
         <!-- Medicines Section -->
@@ -1059,12 +1132,15 @@
     <div class="container">
       <div class="header-gradient">
         <button class="btn btn-secondary no-print" onclick="PoultryCalculator.showPage('homepage')">← Back to Home</button>
-        <h1 class="main-heading">THE UAK</h1>
-        <p class="sub-heading">Shed-wise Dose Calculator | Passion Made Profession</p>
+        <div class="uak-header-main">
+          <div class="rooster-head">🐓</div>
+          <h1 class="main-heading">THE UAK</h1>
+        </div>
+        <p class="sub-heading">Passion Made Profession</p>
       </div>
 
       <div class="content-box">
-        <h2 class="calculator-title">Multi-Shed Medication Calculator</h2>
+        <h2 class="calculator-title">Shed-wise Dose Calculator</h2>
         <div class="heading-underline"></div>
 
         <form id="shed-dose-form">
@@ -1379,12 +1455,20 @@
         
         if (compType === 'percent') {
           label.textContent = 'Composition (%)';
+          compositionInput.placeholder = 'e.g. 10';
           compositionInput.max = 100;
         } else {
-          label.textContent = medicineType === 'liquid' ? 'Concentration (g/L)' : 'Concentration (g/kg)';
+          if (medicineType === 'liquid') {
+            label.textContent = 'Concentration (g/L)';
+            compositionInput.placeholder = 'e.g. 100';
+          } else {
+            label.textContent = 'Concentration (g/kg)';
+            compositionInput.placeholder = 'e.g. 100';
+          }
           compositionInput.removeAttribute('max');
         }
         
+        // Update the weight label in toggle
         document.getElementById('weight-label').textContent = 
           medicineType === 'liquid' ? 'g/L' : 'g/kg';
       }
