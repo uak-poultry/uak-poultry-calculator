@@ -1,5 +1,5 @@
 {
-  "name": "UAK - Poultry Medicine Calculator",
+  "name": "Poultry Medicine Calculator - UAK",
   "short_name": "PMC by UAK",
   "description": "Passion Made Profession - Advanced Poultry Medicine Calculators by Dr. Usman Ali",
   "start_url": "/uak-poultry-calculator/",
@@ -17,6 +17,11 @@
     {
       "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='bg4' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%232e7d32'/><stop offset='100%' stop-color='%230288d1'/></linearGradient></defs><rect width='512' height='512' fill='url(%23bg4)' rx='80'/><path d='M256 120 C230 120 210 150 210 180 C210 210 230 240 256 240 C282 240 302 210 302 180 C302 150 282 120 256 120 Z' fill='%23ffb300'/><path d='M302 180 L340 150 L350 165 L312 195 Z' fill='%23ffb300'/><circle cx='240' cy='170' r='10' fill='%23333'/><circle cx='272' cy='170' r='10' fill='%23333'/><text x='256' y='380' font-family='Arial' font-size='80' font-weight='bold' text-anchor='middle' fill='white'>UAK</text><text x='256' y='430' font-family='Arial' font-size='30' text-anchor='middle' fill='%23ffeb3b'>PRO</text></svg>",
       "sizes": "512x512",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'%3E%3Cpath d='M289 204c19.85 7.52 32.97 24.48 42 43.57 1.13 2.28 2.26 4.56 3.29 6.89 7.54 18.11 7.85 43.42.48 61.68-1.03 2.29-2.09 4.56-3.19 6.81-.37.8-.74 1.6-1.12 2.43-8.4 16.75-22.81 29.52-38.88 38.57-.68.41-1.36.82-2.07 1.25-18.5 10.35-43.94 9.99-63.93 4.77-22.57-6.89-40.2-22.86-51.76-43.08-10.14-19.48-13.17-44.51-6.67-65.79 3.97-9.2 7.81-17.21 13.43-25.13.66-.99 1.32-1.98 1.99-3 2.39 4.51 3.58 7.39 4.2 11.63 6.02 19.27 4.62 39.16-3.62 57.82-3.93 7.75-7.68 12.59-11.8 17.56-.48.65-.96 1.31-1.45 1.98-9.53 12.54-26.87 19.98-41.92 22.63-13.12 1.47-25.07.43-37.6-3.59-1.59-.49-1.59-.49-3.21-.99-7.56-2.71-13-7.09-18.88-12.39 2.91-2.62 2.91-2.62 5.48-4.53 2.08-1.91 4.17-3.82 6.25-5.73 3.08-2.65 5.15-5.58 7.37-8.96.36-.6.73-1.2 1.1-1.8 11.58-18.12 14.15-38.02 10.24-59.04-4.8-16.06-14.8-29.89-27.49-40.09-1-.5-1-.5-2-1-.99-1-.99-2-1-3z' fill='%23FA3F2A'/%3E%3C/svg%3E",
+      "sizes": "500x500",
       "type": "image/svg+xml"
     }
   ]
